@@ -33,11 +33,9 @@ class OscarClassification(nn.Module):
         device = self.device
 
         loss_fn=self.loss_fn
-        optimizer = self.optimizer
+        optimizer = self.optimizer       
 
-        
-
-        print(f"Training on: {device}")
+        # print(f"Training on: {device}")
 
         epochs = epochs
         
@@ -79,7 +77,7 @@ class OscarClassification(nn.Module):
         return self.train_accuracy_progess
     
     
-    def test(self, accuracy_fn, X_test, y_test, device):
+    def test(self, accuracy_fn, X_test, y_test):
         device = self.device
         with torch.inference_mode():
             X_test, y_test = X_test.to(device), y_test.to(device)
@@ -88,3 +86,6 @@ class OscarClassification(nn.Module):
             acc = accuracy_fn(y_pred=torch.round(y_test_probs), y_true=y_test)
         print(f'Test total accuracy: {acc:.2f}%')
         return y_test_probs, acc
+    
+    def get_num_params(self):
+        return sum(p.numel() for p in self.parameters())
