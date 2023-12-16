@@ -26,7 +26,7 @@ class OscarClassification(nn.Module):
         return self.layer_stack(x)
     
     # Start training model
-    def start_train(self, accuracy_fn, X_train, y_train, X_test, y_test, epochs, seed=None, verbose=False):
+    def fit(self, accuracy_fn, X_train, y_train, X_test, y_test, epochs, seed=None, verbose=False):
         if seed != None:
             torch.manual_seed(seed)
 
@@ -72,7 +72,7 @@ class OscarClassification(nn.Module):
                     'test_acc': test_acc
                 })
 
-                if verbose: print(f'Epoch: {epoch:04d} | Loss: {loss:.4f}, Acc: {acc:.2f}% | Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}%')
+                if verbose: print(f'Epoch: {epoch:04d} | Loss: {loss:.4f}, Acc: {acc:.2f}% | Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}')
                    
         return self.train_accuracy_progess
     
