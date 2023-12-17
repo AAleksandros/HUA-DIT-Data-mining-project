@@ -1,9 +1,9 @@
 import torch
 from torch import nn
 
-class OscarClassification(nn.Module):
+class OscarClassificationNeuralNetwork(nn.Module):
     def __init__(self, input_features: int, hidden_layer_input_features: int, hidden_layer_output_features: int, device: str, output_features: int = 1, learning_rate: float = 0.01):
-        super(OscarClassification, self).__init__()
+        super(OscarClassificationNeuralNetwork, self).__init__()
         self.layer_stack = nn.Sequential(
             nn.Linear(in_features=input_features, out_features=hidden_layer_input_features),
             nn.ReLU(),
@@ -72,7 +72,7 @@ class OscarClassification(nn.Module):
                     'test_acc': test_acc
                 })
 
-                if verbose: print(f'Epoch: {epoch:04d} | Loss: {loss:.4f}, Acc: {acc:.2f}% | Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}')
+                if verbose: print(f'Epoch: {epoch:04d} | Loss: {loss:.4f}, Acc: {acc:.2f} | Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}')
                    
         return self.train_accuracy_progess
     
@@ -84,8 +84,14 @@ class OscarClassification(nn.Module):
             y_test_logits = self(X_test)
             y_test_probs = torch.sigmoid(y_test_logits)
             acc = accuracy_fn(y_pred=torch.round(y_test_probs), y_true=y_test)
-        print(f'Test total accuracy: {acc:.2f}%')
+        print(f'Test total accuracy: {acc:.2f}')
         return y_test_probs, acc
     
     def get_num_params(self):
         return sum(p.numel() for p in self.parameters())
+    
+
+# Accuracy calculator helper function
+def accuracy_fn(y_pred, y_true):
+    correct = torch.eq(y_true, y_pred).sum().item()
+    return (correct / len(y_pred))
