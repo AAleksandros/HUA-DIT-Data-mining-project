@@ -84,7 +84,7 @@ class OscarClassificationNeuralNetwork(nn.Module):
             y_test_logits = self(X_test)
             y_test_probs = torch.sigmoid(y_test_logits)
             acc = accuracy_fn(y_pred=torch.round(y_test_probs), y_true=y_test)
-        print(f'Test total accuracy: {acc:.2f}')
+        print(f'Test total accuracy: {acc:.4f}')
         return y_test_probs, acc
     
     def get_num_params(self):
