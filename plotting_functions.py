@@ -1,4 +1,5 @@
 from sklearn.metrics import roc_curve, auc, RocCurveDisplay, ConfusionMatrixDisplay, classification_report
+from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc, RocCurveDisplay, ConfusionMatrixDisplay
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -13,60 +14,20 @@ def plot_roc_curves(best_a, best_b, best_c, best_d, title):
     fpr_d, tpr_d, thresholds = roc_curve(best_d['true'].flatten(), best_d['preds'].flatten())
     sns.reset_orig()
     sns.set_theme()
-
+    plt.figure(figsize=(8, 6))
     plt.plot(fpr_a, tpr_a, label=f'{best_a["label"]} AUC: {auc(fpr_a, tpr_a):.2}')
     plt.plot(fpr_b, tpr_b, label=f'{best_b["label"]} AUC: {auc(fpr_b, tpr_b):.2}')
     plt.plot(fpr_c, tpr_c, label=f'{best_c["label"]} AUC: {auc(fpr_c, tpr_c):.2}')
     plt.plot(fpr_d, tpr_d, label=f'{best_d["label"]} AUC: {auc(fpr_d, tpr_d):.2}')
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
+    
     plt.title(title)
     plt.legend()
     plt.show()
     
-'''
-def confusion_matrices(best_a, best_b, best_c, title):
-
-    y_test, y_test_pred = torch.round(torch.tensor((best_y_true))), torch.round(torch.tensor((best_y_pred)))
-    cf_matrix = confusion_matrix(y_test, y_test_pred)
-    sns.reset_orig()
-    # sns.set_theme()
-    disp = ConfusionMatrixDisplay(confusion_matrix=cf_matrix, display_labels=['0. non-oscar','1. oscar'])
-    disp.plot()
-    plt.title('Confusion Matrix for Neural Network model predictions')
-    plt.show()
-
-    fig, ax = plt.subplots(1, 3, figsize=(14,4))
-
-
-    ax[0].plot(fpr_up, tpr_up, label=f'AUC: {roc_auc_up}')
-    # ax[0].plot(range(1, epochs+1), v_acc, '--', label='Ευστοχία επικύρωσης')
-    # ax[0].set_xticks(range(1, epochs+1))
-    # ax[0].set_ylim(0, 1.1)
-    ax[0].set_xlabel('False Positive Rate')
-    ax[0].set_ylabel('True Positive Rate')
-    ax[0].set_title(titles[0])
-    ax[0].legend()
-
     
-    ax[1].plot(fpr_dwn, tpr_dwn, label=f'AUC: {roc_auc_dwn}')
-    ax[1].set_xlabel('False Positive Rate')
-    ax[1].set_ylabel('True Positive Rate')
-    ax[1].set_title(titles[1])
-    ax[1].legend()
-
-    ax[2].plot(fpr_smote, tpr_smote, label=f'AUC: {roc_auc_smote}')
-    ax[2].set_xlabel('False Positive Rate')
-    ax[2].set_ylabel('True Positive Rate')
-    ax[2].set_title(titles[1])
-    ax[2].legend()
-
-    plt.suptitle('Roc Curves')
-    plt.show()
-'''
-
-def avg_classification_reports(reports, title):
-
+def plot_classification_reports_averages(reports, title):
     avg_reports = []
     for report in reports:
         avg_reports.append({
@@ -100,20 +61,69 @@ def avg_classification_reports(reports, title):
                 }
             })
 
-    # report_a = classification_report(torch.round(torch.tensor(best_a['true'])), torch.round(torch.tensor(best_a['preds'])), output_dict=True, target_names=['0. non-oscar', '1. oscar'])
-    # report_b = classification_report(torch.round(torch.tensor(best_b['true'])), torch.round(torch.tensor(best_b['preds'])), output_dict=True, target_names=['0. non-oscar', '1. oscar'])
-    # report_c = classification_report(torch.round(torch.tensor(best_c['true'])), torch.round(torch.tensor(best_c['preds'])), output_dict=True, target_names=['0. non-oscar', '1. oscar'])
-
-    fig, axes = plt.subplots(nrows=2, ncols=2)
+    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 6))
     sns.reset_orig()
     sns.set_theme()
-    sns.set(rc={'figure.figsize':(8, 6)})
-
 
     sns.heatmap(pd.DataFrame(avg_reports[0]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[0][0], xticklabels=False, yticklabels=True, cbar=True).set_title(avg_reports[0]['label'])
     sns.heatmap(pd.DataFrame(avg_reports[1]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[0][1], xticklabels=False, yticklabels=False, cbar=True).set_title(avg_reports[1]['label'])
     sns.heatmap(pd.DataFrame(avg_reports[2]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[1][0], xticklabels=True, yticklabels=True, cbar=True).set_title(avg_reports[2]['label'])
     sns.heatmap(pd.DataFrame(avg_reports[3]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[1][1], xticklabels=True, yticklabels=False, cbar=True).set_title(avg_reports[3]['label'])
     plt.suptitle(title)
-
     plt.show()
+
+
+def plot_confusion_matrices(models, title):
+    cf_matrices = [confusion_matrix(model['true'], torch.round(torch.sigmoid(torch.tensor(model['preds'])))) for model in models]
+
+    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 6))
+
+    sns.reset_orig()
+    sns.set_theme()
+
+    sns.heatmap(pd.DataFrame(cf_matrices[0]), fmt='g', annot=True, ax=axes[0][0], xticklabels=False, yticklabels=True, cbar=True, linewidths=0.5, linecolor='black').set_title(models[0]['label'])
+    sns.heatmap(pd.DataFrame(cf_matrices[1]), fmt='g', annot=True, ax=axes[0][1], xticklabels=False, yticklabels=False, cbar=True, linewidths=0.5, linecolor='black').set_title(models[1]['label'])
+    sns.heatmap(pd.DataFrame(cf_matrices[2]), fmt='g', annot=True, ax=axes[1][0], xticklabels=True, yticklabels=True, cbar=True, linewidths=0.5, linecolor='black').set_title(models[2]['label'])
+    sns.heatmap(pd.DataFrame(cf_matrices[3]), fmt='g', annot=True, ax=axes[1][1], xticklabels=True, yticklabels=False, cbar=True, linewidths=0.5, linecolor='black').set_title(models[3]['label'])
+    
+    plt.suptitle(title)
+    plt.show()
+
+
+
+'''
+# fig, ax = plt.subplots()
+# ax.plot(range(len(x_points)), y_points, 'r-')
+
+# ax.errorbar(range(len(x_points)), y_points, xerr=0, yerr=error_bars, ecolor = 'b',fmt='ro')
+# ax.set_xticks(range(len(x_points)), [str(x) for x in x_points])
+# ax.set_ylim(-0.1, 1.1)
+# plt.show()
+'''
+
+
+
+'''
+# error_bars_min = []
+# error_bars_max = []
+# x_points = []
+# y_points = []
+
+# for ratio in balance_ratios:
+#     scores = []
+#     for item in results_nn:
+#         if item['ratio'] == ratio:
+#             # scores.append(item['classification_report']['accuracy'])
+#             scores.append(item['accuracy'])
+    
+#     x_points.append(ratio)
+#     y_points.append(np.average(scores))
+#     error_bars_min.append(min(scores))
+#     error_bars_max.append(max(scores))
+
+# error_bars = [[],[]]
+
+# for min_p, max_p, center in zip(error_bars_min, error_bars_max, y_points):
+#     error_bars[0].append(center - min_p)
+#     error_bars[1].append(max_p - center)
+'''
