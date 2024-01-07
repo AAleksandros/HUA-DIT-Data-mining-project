@@ -8,10 +8,10 @@ import numpy as np
 
 
 def plot_roc_curves(best_a, best_b, best_c, best_d, title):
-    fpr_a, tpr_a, thresholds = roc_curve(best_a['true'].flatten(), best_a['preds'].flatten())
-    fpr_b, tpr_b, thresholds = roc_curve(best_b['true'].flatten(), best_b['preds'].flatten())
-    fpr_c, tpr_c, thresholds = roc_curve(best_c['true'].flatten(), best_c['preds'].flatten())
-    fpr_d, tpr_d, thresholds = roc_curve(best_d['true'].flatten(), best_d['preds'].flatten())
+    fpr_a, tpr_a, thresholds = roc_curve(best_a['true'], best_a['preds'])
+    fpr_b, tpr_b, thresholds = roc_curve(best_b['true'], best_b['preds'])
+    fpr_c, tpr_c, thresholds = roc_curve(best_c['true'], best_c['preds'])
+    fpr_d, tpr_d, thresholds = roc_curve(best_d['true'], best_d['preds'])
     sns.reset_orig()
     sns.set_theme()
     plt.figure(figsize=(8, 6))
