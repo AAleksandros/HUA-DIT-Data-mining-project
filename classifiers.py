@@ -95,7 +95,9 @@ def k_fold_fit_and_test(model, datasets, test, param=None):
                 'fold' : str(i),
                 'report' : report,
                 'preds' : y_pred,
-                'true' : y_test
+                'true' : y_test,
+                'X_train' : X_train,
+                'y_train' : y_train
             })
 
     return results
@@ -159,7 +161,9 @@ def k_fold_fit_and_test_knn(datasets, test, param=None):
                 'report' : report,
                 'preds' : y_pred,
                 'true' : y_test,
-                'k' : best_k
+                'best_k' : best_k,
+                'X_train' : X_train,
+                'y_train' : y_train
             })
 
     return results
@@ -227,7 +231,9 @@ def k_fold_fit_and_test_rf(datasets, test, param=None):
                 'report' : report,
                 'preds' : y_pred,
                 'true' : y_test,
-                'k' : best_k
+                'best_k' : best_k,
+                'X_train' : X_train,
+                'y_train' : y_train
             })
 
     return results
