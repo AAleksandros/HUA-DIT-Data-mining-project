@@ -68,7 +68,7 @@ def plot_classification_reports_averages(reports, name):
     sns.heatmap(pd.DataFrame(avg_reports[1]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[0][1], xticklabels=False, yticklabels=False, cbar=True).set_title(avg_reports[1]['sampling'])
     sns.heatmap(pd.DataFrame(avg_reports[2]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[1][0], xticklabels=True, yticklabels=True, cbar=True).set_title(avg_reports[2]['sampling'])
     sns.heatmap(pd.DataFrame(avg_reports[3]['report']).iloc[:-1, :].T, annot=True, vmin=0, vmax=1, ax=axes[1][1], xticklabels=True, yticklabels=False, cbar=True).set_title(avg_reports[3]['sampling'])
-    plt.suptitle(f'{name} k-fold average classification report')
+    plt.suptitle(f'{name} classification report')
     plt.show()
 
 
@@ -88,5 +88,5 @@ def plot_confusion_matrices(models, name):
     sns.heatmap(pd.DataFrame(cf_matrices[2]), fmt='g', annot=True, ax=axes[1][0], xticklabels=True, yticklabels=True, cbar=True, linewidths=0.5, linecolor='black').set_title(labels[2])
     sns.heatmap(pd.DataFrame(cf_matrices[3]), fmt='g', annot=True, ax=axes[1][1], xticklabels=True, yticklabels=False, cbar=True, linewidths=0.5, linecolor='black').set_title(labels[3])
     
-    plt.suptitle(f'{name} - Confusion Matrices (best f1 score from 5-folds)')
+    plt.suptitle(f'{name} - Confusion Matrices')
     plt.show()
