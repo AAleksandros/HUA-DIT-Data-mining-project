@@ -1,0 +1,1 @@
+{"default": {"n_estimators": 100}, "upsampled": {"n_estimators": 860}, "downsampled": {"n_estimators": 190}, "SMOTE": {"n_estimators": 90}}
