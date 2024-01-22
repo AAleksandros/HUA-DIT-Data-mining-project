@@ -1,1 +1,5 @@
-{"default": {"criterion": "gini", "max_depth": 10, "min_samples_leaf": 2, "min_samples_split": 8, "splitter": "random"}, "upsampled": {"criterion": "entropy", "max_depth": 9, "min_samples_leaf": 1, "min_samples_split": 2, "splitter": "best"}, "downsampled": {"criterion": "gini", "max_depth": 8, "min_samples_leaf": 1, "min_samples_split": 2, "splitter": "random"}, "SMOTE": {"criterion": "entropy", "max_depth": 10, "min_samples_leaf": 1, "min_samples_split": 2, "splitter": "best"}}
+{
+"default": {"criterion": "gini", "max_depth": 10, "min_samples_leaf": 2, "min_samples_split": 8, "splitter": "random"}, 
+"upsampled": {"criterion": "entropy", "max_depth": 9, "min_samples_leaf": 1, "min_samples_split": 2, "splitter": "best"}, 
+"downsampled": {"criterion": "gini", "max_depth": 8, "min_samples_leaf": 1, "min_samples_split": 2, "splitter": "random"}, 
+"SMOTE": {"criterion": "entropy", "max_depth": 10, "min_samples_leaf": 1, "min_samples_split": 2, "splitter": "best"}}

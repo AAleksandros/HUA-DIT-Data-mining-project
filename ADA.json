@@ -1,1 +1,4 @@
-{"default": {"n_estimators": 100}, "upsampled": {"n_estimators": 980}, "downsampled": {"n_estimators": 420}, "SMOTE": {"n_estimators": 370}}
+{"default": {"n_estimators": 100}, 
+"upsampled": {"n_estimators": 980}, 
+"downsampled": {"n_estimators": 420}, 
+"SMOTE": {"n_estimators": 370}}
