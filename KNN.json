@@ -1,4 +1,0 @@
-{"default": {"algorithm": "auto", "leaf_size": 1, "n_neighbors": 9, "weights": "distance"}, 
-"upsampled": {"algorithm": "auto", "leaf_size": 1, "n_neighbors": 2, "weights": "uniform"}, 
-"downsampled": {"algorithm": "auto", "leaf_size": 1, "n_neighbors": 8, "weights": "uniform"}, 
-"SMOTE": {"algorithm": "auto", "leaf_size": 1, "n_neighbors": 2, "weights": "uniform"}}

@@ -1,10 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.utils import resample
-
-
 import matplotlib.pyplot as plt
-import numpy as np
-
 import pandas as pd
 from imblearn.over_sampling import SMOTE
 
@@ -43,15 +39,16 @@ def build_resampled_datasets(dataset, test_ratio=0.3):
     }, df_test
 
 
-def best_f1_score_for_each_sampling_method(results, model):
-    best = {}
-    best['default'] = max(results[model]['default'], key=lambda a:a['report']['1']['f1-score'])
-    best['upsampled'] = max(results[model]['upsampled'], key=lambda a:a['report']['1']['f1-score'])
-    best['downsampled'] = max(results[model]['downsampled'], key=lambda a:a['report']['1']['f1-score'])
-    best['SMOTE'] = max(results[model]['SMOTE'], key=lambda a:a['report']['1']['f1-score'])
-    return best
+def best_f1_score(results, model):
+    best = results[model]['default']
+    name = 'default'
+    for key in results[model]:
+        if results[model][key]['report']['1']['f1-score'] > best['report']['1']['f1-score']:
+            best = results[model][key]
+            name = key
 
-#columns = kmeans_pca, kmeans etc
+    return best, name
+
 
 def cluster_scatter_plot_2D(dataframe, clusters_column, xfeature, yfeature, title):
     no_oscars = dataframe[dataframe['oscar_winners'] == 0]
